@@ -32,6 +32,8 @@ contract Domains is ERC721URIStorage {
     console.log("%s name service deployed", _tld);
   }
 
+  
+  // We still need the price, getAddress, setRecord and getRecord functions, they just don't change
   // This function will give us the price of a domain based on length
   function price(string calldata name) public pure returns(uint) {
     uint len = StringUtils.strlen(name);
@@ -44,18 +46,7 @@ contract Domains is ERC721URIStorage {
       return 1 * 10**17;
     }
   }
-  // Added "payable" modifier to register function
-  // function register(string calldata name) public payable{
-  //   require(domains[name] == address(0));
-    
-  //   uint _price = price(name);
-
-  //   // Check if enough Matic was paid in the transaction
-  //   require(msg.value >= _price, "Not enough Matic paid");
-
-  //   domains[name] = msg.sender;
-  //   console.log("%s has registered a domain!", msg.sender);
-  // }
+  
   // Other functions unchanged
   function getAddress(string calldata name) public view returns (address) {
       return domains[name];
@@ -71,10 +62,12 @@ contract Domains is ERC721URIStorage {
       return records[name];
   }
 
+  // Added "payable" modifier to register function
   function register(string calldata name) public payable {
     require(domains[name] == address(0));
 
     uint256 _price = price(name);
+    // Check if enough Matic was paid in the transaction
     require(msg.value >= _price, "Not enough Matic paid");
     
     // Combine the name passed into the function  with the TLD
@@ -112,6 +105,4 @@ contract Domains is ERC721URIStorage {
 
     _tokenIds.increment();
   }
-
-  // We still need the price, getAddress, setRecord and getRecord functions, they just don't change
 }
