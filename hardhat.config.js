@@ -10,6 +10,11 @@ module.exports = {
     mumbai: {
       url: QUICKNODE_HTTP_URL,
       accounts: [PRIVATE_KEY],
-    }
-  }
+    },
+    mainnet: {
+      chainId: 1,
+      url: process.env.PROD_QUICKNODE_KEY,
+      accounts: [process.env.PRIVATE_KEY],
+    },
+  },
 };
