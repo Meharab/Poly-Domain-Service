@@ -11,7 +11,7 @@ const main = async () => {
   await txn.wait();
 
   // How much money is in here?
-  const balance = await hre.ethers.provider.getBalance(domainContract.address);
+  var balance = await hre.ethers.provider.getBalance(domainContract.address);
   console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
 
   // Quick! Grab the funds from the contract! (as superCoder)
@@ -36,6 +36,22 @@ const main = async () => {
 
   console.log("Contract balance after withdrawal:", hre.ethers.utils.formatEther(contractBalance));
   console.log("Balance of owner after withdrawal:", hre.ethers.utils.formatEther(ownerBalance));
+
+    
+    // CHANGE THIS DOMAIN TO SOMETHING ELSE! I don't want to see OpenSea full of bananas lol
+    txn = await domainContract.register("ml",  {value: hre.ethers.utils.parseEther('0.1')});
+    await txn.wait();
+    console.log("Minted domain ml.dope");
+
+    txn = await domainContract.setRecord("a16z", "A Bro wit no bro is No Bro ... !!!");
+    await txn.wait();
+    console.log("Set record for a16z.dope");
+
+    const address = await domainContract.getAddress("meharab");
+    console.log("Owner of domain a16z:", address);
+
+    balance = await hre.ethers.provider.getBalance(domainContract.address);
+    console.log("Contract balance:", hre.ethers.utils.formatEther(balance));
 }
 
 const runMain = async () => {
